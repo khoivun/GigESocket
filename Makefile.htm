@@ -1,0 +1,203 @@
+
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!-- ViewVC :: http://www.viewvc.org/ -->
+<head>
+<title>[cvs] View of /TyzxRoot/Devel/Source/Emerging/Socket/Makefile</title>
+<meta name="generator" content="ViewVC 1.0.3" />
+<link rel="stylesheet" href="/viewvc-static/styles.css" type="text/css" />
+
+</head>
+<body>
+<div class="vc_navheader">
+
+<form method="get" action="/cgi-bin/viewvc.cgi/">
+
+<table style="padding:0.1em;">
+<tr>
+<td>
+<strong>
+
+<a href="/cgi-bin/viewvc.cgi/">
+
+[cvs]</a>
+/
+
+<a href="/cgi-bin/viewvc.cgi/TyzxRoot/">
+
+TyzxRoot</a>
+/
+
+<a href="/cgi-bin/viewvc.cgi/TyzxRoot/Devel/">
+
+Devel</a>
+/
+
+<a href="/cgi-bin/viewvc.cgi/TyzxRoot/Devel/Source/">
+
+Source</a>
+/
+
+<a href="/cgi-bin/viewvc.cgi/TyzxRoot/Devel/Source/Emerging/">
+
+Emerging</a>
+/
+
+<a href="/cgi-bin/viewvc.cgi/TyzxRoot/Devel/Source/Emerging/Socket/">
+
+Socket</a>
+/
+
+<a href="/cgi-bin/viewvc.cgi/TyzxRoot/Devel/Source/Emerging/Socket/Makefile?view=log">
+
+Makefile</a>
+
+
+</strong>
+
+</td>
+<td style="text-align:right;">
+
+
+<strong>Repository:</strong>
+<select name="root" onchange="submit()">
+
+
+<option value="*viewroots*">Repository Listing</option>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<optgroup label="CVS Repositories"><option selected="selected">cvs</option></optgroup>
+
+
+<optgroup label="Subversion Repositories"><option>svn</option></optgroup>
+
+</select>
+<input type="submit" value="Go" />
+
+</td>
+</tr>
+</table>
+
+</form>
+
+</div>
+<div style="float: right; padding: 5px;"><a href="http://www.viewvc.org/"><img src="/viewvc-static/images/logo.png" alt="ViewVC logotype" width="128" height="48" /></a></div>
+<h1>View of /TyzxRoot/Devel/Source/Emerging/Socket/Makefile</h1>
+
+<p style="margin:0;">
+
+<a href="/cgi-bin/viewvc.cgi/TyzxRoot/Devel/Source/Emerging/Socket/"><img src="/viewvc-static/images/back_small.png" width="16" height="16" alt="Parent Directory" /> Parent Directory</a>
+
+| <a href="/cgi-bin/viewvc.cgi/TyzxRoot/Devel/Source/Emerging/Socket/Makefile?view=log#rev1.1"><img src="/viewvc-static/images/log.png" width="16" height="16" alt="Revision Log" /> Revision Log</a>
+
+
+
+
+</p>
+
+<hr />
+<div class="vc_summary">
+Revision <strong>1.1</strong> -
+(<a href="/cgi-bin/viewvc.cgi/TyzxRoot/Devel/Source/Emerging/Socket/Makefile?revision=1.1"><strong>download</strong></a>)
+
+(<a href="/cgi-bin/viewvc.cgi/TyzxRoot/Devel/Source/Emerging/Socket/Makefile?annotate=1.1"><strong>annotate</strong></a>)
+
+<br /><em>Wed Feb  6 22:21:07 2008 UTC</em>
+(2 months, 1 week ago)
+by <em>woodfill</em>
+
+
+<br />Branch: <strong>MAIN</strong>
+
+
+<br />CVS Tags: <strong>Rev_6_1, HEAD</strong>
+
+
+
+
+
+
+
+
+<pre class="vc_log">builds under linux
+</pre>
+
+</div>
+<div id="vc_markup"><pre>include $(TYZXROOT)/Devel/Make/Make.include
+
+SRCS1 = Socket.cpp TcpSocket.cpp UdpSocket.cpp
+SRCS2 = 
+SRCS3 = 
+SRCS = $(SRCS1) $(SRCS2) $(SRCS3)
+OBJS= $(SRCS:%.cpp=$(OBJDIR)/%.o)
+SUPPORTLIBNAME = TyzxSocket.a
+SUPPORTLIB = $(OBJDIR)/$(SUPPORTLIBNAME)
+GLOBALINCLUDEDIR = ../../../Include
+INCLUDES = -I. -I$(TYZXROOT)/Devel/Source/TyzxSupport
+LIBS = 
+
+all: install
+
+%.d: %.cpp
+	set -e; $(CC) -M $(CPPFLAGS) $&lt; \
+		| sed 's/\($*\)\.o[ :]*/$$(OBJDIR)\/\1.o $@ : /g' &gt; $@; \
+		[ -s $@ ] || rm -f $@
+
+$(OBJDIR)/%.o: %.cpp
+	$(CXX) -c $(CPPFLAGS) $(CXXFLAGS) $&lt; -o $@
+
+install: $(DEVELLIBDIR)/$(SUPPORTLIBNAME)
+
+$(DEVELLIBDIR)/$(SUPPORTLIBNAME): $(SUPPORTLIB)
+	$(CP) $(SUPPORTLIB) $(DEVELLIBDIR)	
+
+clean: $(OBJDIR)
+	$(RM) $(OBJDIR)/*.o *.d $(LIBS) $(OBJDIR)/*.a
+
+$(SUPPORTLIB): $(OBJDIR) $(SUPPORTLIB)($(OBJS)) 
+	$(RANLIB) $(SUPPORTLIB)
+
+include $(SRCS:.cpp=.d)
+
+Fast: 
+	$(MKDIR) Fast
+Slow:
+	$(MKDIR) Slow
+</pre></div>
+
+<hr />
+<table>
+<tr>
+<td><address><a href="mailto:cvs-admin@insert.your.domain.here">No admin address has been configured</a></address></td>
+<td style="text-align: right;"><strong><a href="/viewvc-static/help_rootview.html">ViewVC Help</a></strong></td>
+</tr>
+<tr>
+<td>Powered by <a href="http://viewvc.tigris.org/">ViewVC 1.0.3</a></td>
+<td style="text-align: right;">&nbsp;</td>
+</tr>
+</table>
+</body>
+</html>
+
